@@ -32,8 +32,8 @@ This is a scalable IoT backend system built with [NestJS](https://nestjs.com/) f
 
 ```bash
 # 1. Clone the repo (if applicable)
-git clone https://github.com/your-username/iot-backend.git
-cd iot-backend
+git clone https://github.com/Washimbar/iot-backend-ts
+cd iot-backend-ts
 
 # 2. Install dependencies
 npm install
@@ -135,19 +135,122 @@ You can use:
 src/
 ├── main.ts
 ├── app.module.ts
-├── config/
-├── common/              # Guards, decorators, etc.
+│
+├── config/                        # Environment and config files
+│   ├── config.module.ts
+│   ├── database.config.ts
+│   ├── jwt.config.ts
+│   └── swagger.config.ts
+│
+├── common/                        # Shared logic across app
+│   ├── decorators/
+│   │   ├── roles.decorator.ts
+│   │   └── permissions.decorator.ts
+│   ├── guards/
+│   │   ├── jwt-auth.guard.ts
+│   │   └── roles.guard.ts
+│   ├── filters/
+│   │   └── http-exception.filter.ts
+│   ├── interceptors/
+│   │   └── logging.interceptor.ts
+│   ├── pipes/
+│   │   └── validation.pipe.ts
+│   └── utils/
+│       └── helper.util.ts
+│
 ├── database/
-│   └── entities/
+│   ├── entities/                  # Cross-module shared entities (if needed)
+│   │   └── base.entity.ts
+│   ├── migrations/
+│   └── seeders/
+│
 ├── interfaces/
-└── modules/
-    ├── rooms/
-    ├── devices/
-    ├── actuators/
-    ├── sensors/
-    ├── auth/
-    ├── users/
-    └── permissions/
+│   ├── jwt-payload.interface.ts
+│   ├── user.interface.ts
+│   └── permission.interface.ts
+│
+├── modules/
+│   ├── rooms/
+│   │   ├── rooms.module.ts
+│   │   ├── rooms.controller.ts
+│   │   ├── rooms.service.ts
+│   │   ├── entities/
+│   │   │   └── room.entity.ts
+│   │   └── dto/
+│   │       ├── create-room.dto.ts
+│   │       └── update-room.dto.ts
+│   │
+│   ├── devices/
+│   │   ├── devices.module.ts
+│   │   ├── devices.controller.ts
+│   │   ├── devices.service.ts
+│   │   ├── entities/
+│   │   │   └── device.entity.ts
+│   │   ├── dto/
+│   │   │   ├── create-device.dto.ts
+│   │   │   └── update-device.dto.ts
+│   │   └── policies/
+│   │       └── device-access.guard.ts
+│   │
+│   ├── actuators/
+│   │   ├── actuators.module.ts
+│   │   ├── actuators.controller.ts
+│   │   ├── actuators.service.ts
+│   │   ├── entities/
+│   │   │   └── actuator.entity.ts
+│   │   └── dto/
+│   │       ├── create-actuator.dto.ts
+│   │       └── update-actuator.dto.ts
+│   │
+│   ├── sensors/
+│   │   ├── sensors.module.ts
+│   │   ├── sensors.controller.ts
+│   │   ├── sensors.service.ts
+│   │   ├── entities/
+│   │   │   └── sensor.entity.ts
+│   │   └── dto/
+│   │       ├── create-sensor.dto.ts
+│   │       └── update-sensor.dto.ts
+│   │
+│   ├── users/
+│   │   ├── users.module.ts
+│   │   ├── users.controller.ts
+│   │   ├── users.service.ts
+│   │   ├── entities/
+│   │   │   └── user.entity.ts
+│   │   └── dto/
+│   │       ├── create-user.dto.ts
+│   │       └── update-user.dto.ts
+│   │
+│   ├── auth/
+│   │   ├── auth.module.ts
+│   │   ├── auth.controller.ts
+│   │   ├── auth.service.ts
+│   │   ├── jwt.strategy.ts
+│   │   ├── local.strategy.ts
+│   │   └── dto/
+│   │       ├── login.dto.ts
+│   │       └── register.dto.ts
+│   │
+│   └── permissions/
+│       ├── permissions.module.ts
+│       ├── permissions.service.ts
+│       ├── rbac.guard.ts
+│       ├── permissions.controller.ts
+│       └── entities/
+│           └── permission.entity.ts
+│
+├── tasks/                         # Scheduled jobs / cron tasks
+│   └── device-health-check.task.ts
+│
+├── ws-gateway/                    # WebSocket or MQTT Gateway (optional)
+│   ├── ws.module.ts
+│   └── device.gateway.ts
+│
+└── test/                          # Unit and e2e tests
+    ├── app.e2e-spec.ts
+    └── jest-e2e.json
+
 ```
 
 ---
